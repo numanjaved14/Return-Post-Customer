@@ -208,7 +208,7 @@ class _SigninpageState extends State<Signinpage> {
                     'Sign Up',
                     style: GoogleFonts.getFont('Montserrat',
                         fontWeight: FontWeight.w600,
-                        color: Color(0xffEB5757),
+                        color: const Color(0xffEB5757),
                         fontSize: 15,
                         fontStyle: FontStyle.normal),
                   ),

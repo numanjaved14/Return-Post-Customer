@@ -1,3 +1,4 @@
+import 'package:couriercustomer/views/screens/add_order_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -97,9 +98,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               FloatingActionButton(
                 onPressed: () {
                   setState(() {
-                    currentScreen = Text('Page',
-                        style: TextStyle(
-                            fontSize: 35, fontWeight: FontWeight.bold));
+                    currentScreen = const AddOrderScreen();
                     // if user taps on this dashboard tab will be active
                     currentTab = 2;
                   });

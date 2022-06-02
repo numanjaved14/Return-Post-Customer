@@ -1,3 +1,4 @@
+import 'package:couriercustomer/views/screens/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -73,7 +74,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
-                        // controller: _emailController,
+                        controller: _nameController,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
                           hintText: ' Hoodie, T-shirt',
@@ -107,7 +108,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
-                        // controller: _passwordController,
+                        controller: _categoryController,
                         validator: (e) {
                           if (e!.isEmpty) {
                             return "Please Enter field";
@@ -152,7 +153,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
-                        // controller: _emailController,
+                        controller: _dateController,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
                           hintText: ' 02.04.2021',
@@ -185,10 +186,10 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
-                        // controller: _emailController,
+                        controller: _addressController,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
-                          hintText: ' Hoodie, T-shirt',
+                          hintText: ' London, WC2n 4JH, United Kingdom',
                           contentPadding: const EdgeInsets.only(
                             top: 10,
                             left: 20,
@@ -223,23 +224,28 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       _isLoading = true;
                     });
                   }
-                  // await DataBaseMethods()
-                  //     .createOrder(
-
-                  //     )
-                  //     .then(
-                  //       (value) => Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (builder) => MyNavigationBar(
-                  //               // title: '',
-                  //               ),
-                  //         ),
-                  //       ),
-                  //     );
-                  // setState(() {
-                  //   _isLoading = false;
-                  // });
+                  await DataBaseMethods()
+                      .createOrder(
+                        address: _addressController.text,
+                        brandName: 'Brand Name',
+                        category: _categoryController.text,
+                        price: '\$12',
+                        orderTime: DateTime.now().toString(),
+                        orderId: DateTime.now().toString(),
+                      )
+                      .then(
+                        (value) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => MyNavigationBar(
+                                // title: '',
+                                ),
+                          ),
+                        ),
+                      );
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
                 child: _isLoading == true
                     ? const Center(
