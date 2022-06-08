@@ -1,4 +1,5 @@
 import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
+import 'package:couriercustomer/views/screens/order_place/brand_select_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const Signinpage(),
+      // home: const Signinpage(),
+      home: BrandSelectScreen(),
     );
   }
 }

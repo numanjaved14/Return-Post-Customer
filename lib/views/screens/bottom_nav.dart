@@ -1,4 +1,5 @@
 import 'package:couriercustomer/views/screens/add_order_screen.dart';
+import 'package:couriercustomer/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -11,16 +12,12 @@ class MyNavigationBar extends StatefulWidget {
 class _MyNavigationBarState extends State<MyNavigationBar> {
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
-    Text('Home Page',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    const HomeScreen(),
     Text('Home Page',
         style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Text('Home Page',
-      style: TextStyle(
-          fontSize: 35,
-          fontWeight: FontWeight.bold)); // Our first view in viewport
+  Widget currentScreen = const HomeScreen(); // Our first view in viewport
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +37,8 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 minWidth: 40,
                 onPressed: () {
                   setState(() {
-                    currentScreen = Text('Home Page',
-                        style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight
-                                .bold)); // if user taps on this dashboard tab will be active
+                    currentScreen =
+                        const HomeScreen(); // if user taps on this dashboard tab will be active
                     currentTab = 0;
                   });
                 },
@@ -71,7 +65,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 minWidth: 40,
                 onPressed: () {
                   setState(() {
-                    currentScreen = Text('Home Page',
+                    currentScreen = Text('Register Page',
                         style: TextStyle(
                             fontSize: 35, fontWeight: FontWeight.bold));
                     // if user taps on this dashboard tab will be active

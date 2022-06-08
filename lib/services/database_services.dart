@@ -141,9 +141,9 @@ class DataBaseMethods {
 
         await _firestore
             .collection('orders')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection(orderId)
-            .doc()
+            .doc('ordersList')
+            .collection(FirebaseAuth.instance.currentUser!.uid)
+            .doc(orderId)
             .set(
               user.toJSon(),
             );
