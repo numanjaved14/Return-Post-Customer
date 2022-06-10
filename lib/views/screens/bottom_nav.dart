@@ -45,17 +45,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.food_bank),
-                    Text(
-                      'Food Items',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 10,
-                        color: currentTab == 0
-                            ? Color.fromARGB(255, 78, 24, 167)
-                            : Color(0xff8d8282),
-                      ),
-                    )
+                    Image.asset(currentTab == 0 ? 'assets/pin.png' : 'assets/home.png',height: 20,)
                   ],
                 ),
               ),
@@ -75,17 +65,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.person),
-                    Text(
-                      'Registered Users',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 10,
-                        color: currentTab == 1
-                            ? Color.fromARGB(255, 29, 6, 112)
-                            : Color(0xff8d8282),
-                      ),
-                    )
+                   Image.asset(currentTab == 1 ? 'assets/vectorpink.png' : 'assets/vector.png',height: 20,)
                   ],
                 ),
               ),
