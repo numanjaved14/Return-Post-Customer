@@ -60,6 +60,7 @@ class _SigninpageState extends State<Signinpage> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         controller: _emailController,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
@@ -94,6 +95,8 @@ class _SigninpageState extends State<Signinpage> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
+                                                style: TextStyle(color: Colors.white),
+
                         controller: _passwordController,
                         validator: (e) {
                           if (e!.isEmpty) {
