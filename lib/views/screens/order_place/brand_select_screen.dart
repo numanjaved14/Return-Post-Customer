@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:couriercustomer/views/screens/add_order_screen.dart';
 import 'package:couriercustomer/views/screens/order_place/scroll_ijector.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
@@ -17,6 +18,7 @@ class BrandSelectScreen extends StatefulWidget {
 }
 
 class _BrandSelectScreenState extends State<BrandSelectScreen> {
+  String? brand;
   Uint8List? _image;
 
   _selectImage() {
@@ -110,6 +112,15 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
             builder: (context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasData) {
+                List brands = [];
+                for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                  brands.add(snapshot.data!.docs[i].data()['brandName']);
+                }
+                brands.add('Others');
+                // snapshot.data!.docs
+                //   ..forEach(
+                //     (element) => brands.add(element),
+                //   );
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -137,16 +148,9 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                     ScrollIjector(
                       groupingType: GroupingType.wrap,
                       child: GroupButton(
-                        buttons: const [
-                          '12:00',
-                          '13:00',
-                          '14:00',
-                          '15:00',
-                          '16:00',
-                          '17:00',
-                          '188:00',
-                        ],
-                        controller: GroupButtonController(selectedIndex: 4),
+                        // buttons: snapshot.data!.docs[0].data()['brandName'],
+                        buttons: brands,
+                        controller: GroupButtonController(),
                         options: GroupButtonOptions(
                           textPadding: EdgeInsets.all(20),
                           selectedShadow: const [],
@@ -158,7 +162,7 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         onSelected: (val, i, selected) =>
-                            debugPrint('Button: $val index: $i $selected'),
+                            brand = val.toString(),
                       ),
                     ),
                     // SizedBox(
@@ -181,33 +185,37 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                     //         );
                     //       }),
                     // ),
-                    Text(
-                      'Upload Image',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: Colors.white),
-                    ),
+                    // Code Below to upload image
+                    // Text(
+                    //   'Upload Image',
+                    //   style: Theme.of(context)
+                    //       .textTheme
+                    //       .headline6!
+                    //       .copyWith(color: Colors.white),
+                    // ),
+                    // SizedBox(
+                    //   height: MediaQuery.of(context).size.height * 0.1,
+                    //   width: MediaQuery.of(context).size.width * 0.3,
+                    //   child: InkWell(
+                    //     onTap: _selectImage,
+                    //     child: Card(
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(18.0),
+                    //       ),
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.all(5.0),
+                    //         child: _image == null
+                    //             ? Center(child: Icon(Icons.add))
+                    //             : Image.memory(
+                    //                 _image!,
+                    //                 fit: BoxFit.cover,
+                    //               ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: InkWell(
-                        onTap: _selectImage,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: _image == null
-                                ? Center(child: Icon(Icons.add))
-                                : Image.memory(
-                                    _image!,
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                        ),
-                      ),
+                      height: 60,
                     ),
                     Center(
                       child: ElevatedButton(
@@ -217,7 +225,27 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(23)),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (brand != null) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AddOrderScreen(
+                                brand: brand!,
+                              ),
+                            ));
+                          } else {
+                            Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                "Please Select the brand",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              duration: Duration(seconds: 2),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                        },
                         //  () {
                         //   print('this is name controller $_usernameController');
 

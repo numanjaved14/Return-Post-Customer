@@ -1,5 +1,6 @@
 import 'package:couriercustomer/views/screens/add_order_screen.dart';
 import 'package:couriercustomer/views/screens/home_screen.dart';
+import 'package:couriercustomer/views/screens/order_place/brand_select_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -45,7 +46,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset(currentTab == 0 ? 'assets/pin.png' : 'assets/home.png',height: 20,)
+                    Image.asset(
+                      currentTab == 0 ? 'assets/pin.png' : 'assets/home.png',
+                      height: 20,
+                    )
                   ],
                 ),
               ),
@@ -65,16 +69,43 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                   Image.asset(currentTab == 1 ? 'assets/vectorpink.png' : 'assets/vector.png',height: 20,)
+                    Image.asset(
+                      currentTab == 1
+                          ? 'assets/vectorpink.png'
+                          : 'assets/vector.png',
+                      height: 20,
+                    )
+                  ],
+                ),
+              ),
+              //Chat
+              MaterialButton(
+                minWidth: 40,
+                onPressed: () {
+                  setState(() {
+                    currentScreen = Text('Chat Page',
+                        style: TextStyle(
+                            fontSize: 35, fontWeight: FontWeight.bold));
+                    // if user taps on this dashboard tab will be active
+                    currentTab = 2;
+                  });
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      currentTab == 2 ? 'assets/chat2.png' : 'assets/chat.png',
+                      height: 20,
+                    )
                   ],
                 ),
               ),
               FloatingActionButton(
                 onPressed: () {
                   setState(() {
-                    currentScreen = const AddOrderScreen();
+                    currentScreen = const BrandSelectScreen();
                     // if user taps on this dashboard tab will be active
-                    currentTab = 2;
+                    currentTab = 3;
                   });
                 },
                 backgroundColor: const Color(0xffEB5757),

@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../services/database_services.dart';
 
 class AddOrderScreen extends StatefulWidget {
-  const AddOrderScreen({Key? key}) : super(key: key);
+  String brand;
+  AddOrderScreen({Key? key, required this.brand}) : super(key: key);
 
   @override
   State<AddOrderScreen> createState() => _AddOrderScreenState();
@@ -38,7 +39,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                 children: [
                   Container(
                     width: 237,
-                    height: 88,
+                    height: 40,
                     margin: EdgeInsets.only(left: 30, top: 28),
                     child: Text(
                       'Create order',
@@ -51,7 +52,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                   ),
                   Container(
                     width: 237,
-                    height: 88,
+                    height: 30,
                     margin: EdgeInsets.only(left: 30, top: 28),
                     child: Text(
                       'Details',
@@ -114,15 +115,15 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                             return "Please Enter field";
                           }
                         },
-                        obscureText: true,
+                        obscureText: false,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
-                          suffixIcon: Padding(
-                              padding: EdgeInsets.only(top: 13, right: 20),
-                              child: Icon(
-                                Icons.visibility_off,
-                                color: Color.fromARGB(255, 77, 21, 21),
-                              )),
+                          // suffixIcon: Padding(
+                          //     padding: EdgeInsets.only(top: 13, right: 20),
+                          //     child: Icon(
+                          //       Icons.visibility_off,
+                          //       color: Color.fromARGB(255, 77, 21, 21),
+                          //     )),
                           hintText: ' Choose categories',
                           contentPadding: EdgeInsets.only(top: 20, left: 20),
                           border: InputBorder.none,
@@ -227,7 +228,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                   await DataBaseMethods()
                       .createOrder(
                         address: _addressController.text,
-                        brandName: 'Brand Name',
+                        brandName: widget.brand,
                         category: _categoryController.text,
                         price: '\$12',
                         orderTime: DateTime.now().toString(),
@@ -252,7 +253,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                         child: CircularProgressIndicator.adaptive(),
                       )
                     : Text(
-                        'Next',
+                        'Create',
                         style: GoogleFonts.getFont('Montserrat',
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
