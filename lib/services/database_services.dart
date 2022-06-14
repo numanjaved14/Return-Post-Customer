@@ -137,6 +137,7 @@ class DataBaseMethods {
           orderId: orderId,
           orderTime: orderTime,
           address: address,
+          category: category,
         );
 
         await _firestore

@@ -1,3 +1,4 @@
+import 'package:couriercustomer/services/geo_locator.dart';
 import 'package:couriercustomer/views/screens/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,6 +23,12 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   bool _isLoading = false;
 
   bool formStateLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    getLocation().getCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
