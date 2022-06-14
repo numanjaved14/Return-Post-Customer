@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -332,6 +333,8 @@ class _MyDrawerState extends State<MyDrawer> {
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
                 ),
                 ListTile(
+                  onTap:(){
+                  },
                 leading:  Container(
                     height: 40,
                     width: 40,
@@ -355,11 +358,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.white),
                   ),
                   trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                  onTap: () {
-                    // DataBaseMethods().singnOut();
-                    // Update the state of the app.
-                    // ...
-                  },
+                  
                 ),
               ],
             ),
