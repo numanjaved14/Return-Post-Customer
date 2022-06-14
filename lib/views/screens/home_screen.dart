@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:couriercustomer/views/screens/addreess/add_address.dart';
 import 'package:couriercustomer/views/widgets/order_history_widget.dart';
 import 'package:couriercustomer/widgets/mydrawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,9 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         title: Text('Address',style: TextStyle(color: Colors.white,),),
         backgroundColor: Color(0xff404040),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset('assets/map.png'),
+        leading: InkWell(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (builder) => AddAddress()));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset('assets/map.png'),
+          ),
         ),
         
         actions: [
