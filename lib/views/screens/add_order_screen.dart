@@ -32,6 +32,33 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor:  Color(0xff404040),
+        leading: InkWell(
+          onTap: (){
+            Navigator.pop(context);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.grey
+                          )
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset('assets/back.png'),
+                        )
+                      ),
+          ),
+        ),
+      ),
       backgroundColor: Color(0xff404040),
       body: Form(
         key: formKey,
@@ -42,12 +69,10 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 237,
-                    height: 40,
-                    margin: EdgeInsets.only(left: 30, top: 28),
+                   
+                    margin: EdgeInsets.only(left: 30,top: 20),
                     child: Text(
                       'Create order',
                       style: GoogleFonts.getFont('Montserrat',
@@ -70,9 +95,16 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                           fontStyle: FontStyle.normal),
                     ),
                   ),
+                    Container(
+                      margin: EdgeInsets.only(left: 30,top: 25),
+                      child: Text(
+                        'Name',
+                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
+                      ),
+                    ),
                   Container(
-                      height: 60,
-                      margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+                      height: 55,
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
 
                       //  padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
@@ -103,10 +135,17 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                               fontStyle: FontStyle.normal),
                         ),
                       )),
+                       Container(
+                      margin: EdgeInsets.only(left: 30,top: 15),
+                      child: Text(
+                        'Categories',
+                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
+                      ),
+                    ),
                   Container(
-                      height: 60,
+                      height: 55,
                       margin:
-                          const EdgeInsets.only(left: 30, right: 30, top: 28),
+                          const EdgeInsets.only(left: 20, right: 20, top: 10),
 
                       //  padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
@@ -116,6 +155,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
+                        
                         controller: _categoryController,
                         validator: (e) {
                           if (e!.isEmpty) {
@@ -125,6 +165,10 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                         obscureText: false,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
+                          suffixIcon:Padding(
+                            padding: EdgeInsets.only(top: 13, right: 10),
+                            child: Icon(Icons.arrow_forward_ios,color: Color(0xff8D8989),),
+                          ),
                           // suffixIcon: Padding(
                           //     padding: EdgeInsets.only(top: 13, right: 20),
                           //     child: Icon(
@@ -149,9 +193,16 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                           // ),
                         ),
                       )),
+                        Container(
+                      margin: EdgeInsets.only(left: 30,top: 15),
+                      child: Text(
+                        'Date',
+                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
+                      ),
+                    ),
                   Container(
-                      height: 60,
-                      margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+                      height: 55,
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
 
                       //  padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
@@ -161,13 +212,19 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
+                        
                         controller: _dateController,
                         //  textAlign: TextAlign.start,
                         decoration: InputDecoration(
+                         
                           hintText: ' 02.04.2021',
                           contentPadding: const EdgeInsets.only(
-                            top: 10,
+                            top:15,
                             left: 20,
+                          ),
+                           suffixIcon:Padding(
+                            padding: EdgeInsets.only(top: 13, right: 10),
+                            child: Icon(Icons.date_range,color: Color(0xff8D8989),),
                           ),
                           border: InputBorder.none,
                           labelStyle: GoogleFonts.getFont('Montserrat',
@@ -182,9 +239,16 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                               fontStyle: FontStyle.normal),
                         ),
                       )),
+                         Container(
+                      margin: EdgeInsets.only(left: 30,top: 15),
+                      child: Text(
+                        'Address',
+                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
+                      ),
+                    ),
                   Container(
-                      height: 60,
-                      margin: EdgeInsets.only(left: 30, right: 30, top: 30),
+                      height: 55,
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
 
                       //  padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
@@ -218,57 +282,62 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                 ],
               ),
             ),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xffEB5757),
-                  minimumSize: Size(310, 60),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24)),
-                ),
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                  }
-                  await DataBaseMethods()
-                      .createOrder(
-                        address: _addressController.text,
-                        brandName: widget.brand,
-                        category: _categoryController.text,
-                        price: '\$12',
-                        orderTime: DateTime.now().toString(),
-                        orderId: DateTime.now().toString(),
-                      )
-                      .then(
-                        (value) => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => MyNavigationBar(
-                                // title: '',
-                                ),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              child: Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xffEB5757),
+                    minimumSize: Size(210, 60),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                    }
+                    await DataBaseMethods()
+                        .createOrder(
+                          address: _addressController.text,
+                          brandName: widget.brand,
+                          category: _categoryController.text,
+                          price: '\$12',
+                          orderTime: DateTime.now().toString(),
+                          orderId: DateTime.now().toString(),
+                        )
+                        .then(
+                          (value) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => MyNavigationBar(
+                                  // title: '',
+                                  ),
+                            ),
                           ),
+                        );
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+                  child: _isLoading == true
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                      : Text(
+                          'Next',
+                          style: GoogleFonts.getFont('Montserrat',
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontStyle: FontStyle.normal),
                         ),
-                      );
-                  setState(() {
-                    _isLoading = false;
-                  });
-                },
-                child: _isLoading == true
-                    ? const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      )
-                    : Text(
-                        'Create',
-                        style: GoogleFonts.getFont('Montserrat',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontStyle: FontStyle.normal),
-                      ),
+                ),
               ),
             ),
+
+            
           ],
         ),
       ),

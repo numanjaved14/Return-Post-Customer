@@ -105,6 +105,28 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor:  Color(0xff404040),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.grey
+                        )
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/back.png'),
+                      )
+                    ),
+        ),
+      ),
       backgroundColor: const Color(0xff404040),
       body: SafeArea(
         child: StreamBuilder(
@@ -124,47 +146,165 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Book return',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4!
-                          .copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      'Choose retailer ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6!
-                          .copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      'Store',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(color: Colors.grey),
-                    ),
-                    ScrollIjector(
-                      groupingType: GroupingType.wrap,
-                      child: GroupButton(
-                        // buttons: snapshot.data!.docs[0].data()['brandName'],
-                        buttons: brands,
-                        controller: GroupButtonController(),
-                        options: GroupButtonOptions(
-                          textPadding: EdgeInsets.all(20),
-                          selectedShadow: const [],
-                          unselectedShadow: const [],
-                          unselectedColor: Colors.grey[300],
-                          unselectedTextStyle: TextStyle(
-                            color: Colors.grey[600],
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        onSelected: (val, i, selected) =>
-                            brand = val.toString(),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        'Book return',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4!
+                            .copyWith(color: Colors.white),
                       ),
                     ),
+                    Spacer(),
+                    //Consider as brands
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Choose retailer',
+                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color:Colors.white)
+                      ),
+                    ),
+                    
+                    SizedBox(height: 10,),
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Store',
+                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
+                      ),
+                    ),
+                   
+                    SizedBox(height: 10,),
+                    Container(
+                                            margin: EdgeInsets.only(left: 10,right: 10),
+
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ScrollIjector(
+                          groupingType: GroupingType.wrap,
+                          child: GroupButton(
+                            // buttons: snapshot.data!.docs[0].data()['brandName'],
+                            buttons: brands,
+                            controller: GroupButtonController(),
+                            options: GroupButtonOptions(
+                              textPadding: EdgeInsets.all(20),
+                              selectedShadow: const [],
+                              unselectedShadow: const [],
+                              selectedBorderColor: Colors.red,
+                              unselectedBorderColor: Colors.black,
+                              unselectedColor: Colors.grey[300],
+                              unselectedTextStyle: TextStyle(
+                                color: Colors.grey[600],
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            onSelected: (val, i, selected) =>
+                                brand = val.toString(),
+                          ),
+                        ),
+                      ),
+                    ),
+                     
+                       // Means select the carrier of the service mean who picks the parcel   
+                      
+                     SizedBox(height: 10,), 
+                        Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Select carrier',
+                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color:Colors.white)
+                      ),
+                    ),
+                                         SizedBox(height: 10,), 
+
+                     Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Post Office',
+                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
+                      ),
+                    ),
+                     SizedBox(height: 10,), 
+
+                    /// Put Carriers DETAILS iN ADMIN Panel
+                       Container(
+                                            margin: EdgeInsets.only(left: 10,right: 10),
+
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ScrollIjector(
+                          groupingType: GroupingType.wrap,
+                          child: GroupButton(
+                            // buttons: snapshot.data!.docs[0].data()['brandName'],
+                            buttons: brands,
+                            controller: GroupButtonController(),
+                            options: GroupButtonOptions(
+                              textPadding: EdgeInsets.all(20),
+                              selectedShadow: const [],
+                              unselectedShadow: const [],
+                              selectedBorderColor: Colors.red,
+                              unselectedBorderColor: Colors.black,
+                              unselectedColor: Colors.grey[300],
+                              unselectedTextStyle: TextStyle(
+                                color: Colors.grey[600],
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            onSelected: (val, i, selected) =>
+                                brand = val.toString(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,), 
+                        Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Upload QR code & Images',
+                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color:Colors.white)
+                      ),
+                    ),
+                                        SizedBox(height: 10,), 
+
+                     Row(
+
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 55,
+                          width: 101,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Color(0xff535353)
+                          ),
+                          child: Icon(Icons.add,color: Colors.white,),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          height: 55,
+                          width: 101,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Color(0xff535353)
+                          ),
+                          child: Icon(Icons.image,color: Colors.white,),
+                        ),
+                          SizedBox(width: 10,),
+                        Container(
+                          height: 55,
+                          width: 101,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Color(0xff535353)
+                          ),
+                          child: Icon(Icons.qr_code,color: Colors.white,),
+                        )
+                      ],
+                     ),
+                      SizedBox(height: 10,), 
+
+                      Spacer(),
                     // SizedBox(
                     //   height: MediaQuery.of(context).size.height * 0.1,
                     //   child: StreamBuilder(
@@ -214,59 +354,60 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                     //     ),
                     //   ),
                     // ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xffEB5757),
-                          fixedSize: const Size(202, 60),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(23)),
-                        ),
-                        onPressed: () {
-                          if (brand != null) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AddOrderScreen(
-                                brand: brand!,
-                              ),
-                            ));
-                          } else {
-                            Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                "Please Select the brand",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              duration: Duration(seconds: 2),
-                              backgroundColor: Colors.red,
-                            ));
-                          }
-                        },
-                        //  () {
-                        //   print('this is name controller $_usernameController');
+                  
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20,top: 10),
+                      child: Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color(0xffEB5757),
+                            fixedSize: const Size(202, 60),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(23)),
+                          ),
+                          onPressed: () {
+                            if (brand != null) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AddOrderScreen(
+                                  brand: brand!,
+                                ),
+                              ));
+                            } else {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                  "Please Select the brand",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                duration: Duration(seconds: 2),
+                                backgroundColor: Colors.red,
+                              ));
+                            }
+                          },
+                          //  () {
+                          //   print('this is name controller $_usernameController');
 
-                        //   print('this is name controller $_emailController');
+                          //   print('this is name controller $_emailController');
 
-                        //   print('this is name controller $_passwordController');
+                          //   print('this is name controller $_passwordController');
 
-                        //   print('this is name controller $_refreralController');
+                          //   print('this is name controller $_refreralController');
 
-                        //   if (formKey.currentState!.validate()) ;
+                          //   if (formKey.currentState!.validate()) ;
 
-                        //   // Navigator.push(context,
-                        //   //     MaterialPageRoute(builder: (context) => PrivacyPolicy()));
-                        // },
-                        child: Text(
-                          'Next',
-                          style: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontStyle: FontStyle.normal),
+                          //   // Navigator.push(context,
+                          //   //     MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                          // },
+                          child: Text(
+                            'Next',
+                            style: GoogleFonts.getFont('Montserrat',
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontStyle: FontStyle.normal),
+                          ),
                         ),
                       ),
                     ),
