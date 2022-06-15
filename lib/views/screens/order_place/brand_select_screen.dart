@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couriercustomer/views/screens/add_order_screen.dart';
+import 'package:couriercustomer/views/screens/addreess/add_address.dart';
 import 'package:couriercustomer/views/screens/order_place/scroll_ijector.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
@@ -19,6 +20,8 @@ class BrandSelectScreen extends StatefulWidget {
 
 class _BrandSelectScreenState extends State<BrandSelectScreen> {
   String? brand;
+  String? carrier;
+  String? price;
   Uint8List? _image;
 
   _selectImage() {
@@ -107,24 +110,20 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor:  Color(0xff404040),
+        backgroundColor: Color(0xff404040),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Colors.grey
-                        )
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset('assets/back.png'),
-                      )
-                    ),
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.grey)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/back.png'),
+              )),
         ),
       ),
       backgroundColor: const Color(0xff404040),
@@ -135,10 +134,13 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.hasData) {
                 List brands = [];
+                List prices = [];
+
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
                   brands.add(snapshot.data!.docs[i].data()['brandName']);
+                  prices.add(snapshot.data!.docs[i].data()['brandPrice']);
                 }
-                brands.add('Others');
+                // brands.add('Others');
                 // snapshot.data!.docs
                 //   ..forEach(
                 //     (element) => brands.add(element),
@@ -160,151 +162,213 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                     //Consider as brands
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Choose retailer',
-                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color:Colors.white)
-                      ),
+                      child: Text('Choose retailer',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
                     ),
-                    
-                    SizedBox(height: 10,),
+
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Store',
-                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
-                      ),
+                      child: Text('Store',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xff8D8989))),
                     ),
-                   
-                    SizedBox(height: 10,),
-                    Container(
-                                            margin: EdgeInsets.only(left: 10,right: 10),
 
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: ScrollIjector(
                           groupingType: GroupingType.wrap,
                           child: GroupButton(
-                            // buttons: snapshot.data!.docs[0].data()['brandName'],
-                            buttons: brands,
-                            controller: GroupButtonController(),
-                            options: GroupButtonOptions(
-                              textPadding: EdgeInsets.all(20),
-                              selectedShadow: const [],
-                              unselectedShadow: const [],
-                              selectedBorderColor: Colors.red,
-                              unselectedBorderColor: Colors.black,
-                              unselectedColor: Colors.grey[300],
-                              unselectedTextStyle: TextStyle(
-                                color: Colors.grey[600],
+                              // buttons: snapshot.data!.docs[0].data()['brandName'],
+                              buttons: brands,
+                              controller: GroupButtonController(),
+                              options: GroupButtonOptions(
+                                textPadding: EdgeInsets.all(20),
+                                selectedShadow: const [],
+                                unselectedShadow: const [],
+                                selectedBorderColor: Colors.red,
+                                unselectedBorderColor: Colors.black,
+                                unselectedColor: Colors.grey[300],
+                                unselectedTextStyle: TextStyle(
+                                  color: Colors.grey[600],
+                                ),
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            onSelected: (val, i, selected) =>
-                                brand = val.toString(),
-                          ),
+                              onSelected: (val, i, selected) {
+                                brand = val.toString();
+                                print(brand);
+                                int i = brands.indexOf(brand);
+                                print(i.toString());
+                                price = prices.elementAt(i);
+                                print(price);
+                              }),
                         ),
                       ),
                     ),
-                     
-                       // Means select the carrier of the service mean who picks the parcel   
-                      
-                     SizedBox(height: 10,), 
-                        Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Select carrier',
-                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color:Colors.white)
-                      ),
-                    ),
-                                         SizedBox(height: 10,), 
 
-                     Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Post Office',
-                        style: TextStyle(fontSize: 10,fontWeight: FontWeight.w500,color:Color(0xff8D8989))
-                      ),
+                    // Means select the carrier of the service mean who picks the parcel
+
+                    SizedBox(
+                      height: 10,
                     ),
-                     SizedBox(height: 10,), 
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text('Select carrier',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text('Post Office',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xff8D8989))),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
 
                     /// Put Carriers DETAILS iN ADMIN Panel
-                       Container(
-                                            margin: EdgeInsets.only(left: 10,right: 10),
-
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: ScrollIjector(
-                          groupingType: GroupingType.wrap,
-                          child: GroupButton(
-                            // buttons: snapshot.data!.docs[0].data()['brandName'],
-                            buttons: brands,
-                            controller: GroupButtonController(),
-                            options: GroupButtonOptions(
-                              textPadding: EdgeInsets.all(20),
-                              selectedShadow: const [],
-                              unselectedShadow: const [],
-                              selectedBorderColor: Colors.red,
-                              unselectedBorderColor: Colors.black,
-                              unselectedColor: Colors.grey[300],
-                              unselectedTextStyle: TextStyle(
-                                color: Colors.grey[600],
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('carriers')
+                            .snapshots(),
+                        builder: (context,
+                            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                snapshot) {
+                          if (snapshot.hasData) {
+                            List carriers = [];
+                            for (int i = 0;
+                                i < snapshot.data!.docs.length;
+                                i++) {
+                              carriers.add(
+                                  snapshot.data!.docs[i].data()['carrierName']);
+                            }
+                            // carriers.add('Others');
+                            return Container(
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: ScrollIjector(
+                                  groupingType: GroupingType.wrap,
+                                  child: GroupButton(
+                                    buttons: carriers,
+                                    controller: GroupButtonController(),
+                                    options: GroupButtonOptions(
+                                      textPadding: EdgeInsets.all(20),
+                                      selectedShadow: const [],
+                                      unselectedShadow: const [],
+                                      selectedBorderColor: Colors.red,
+                                      unselectedBorderColor: Colors.black,
+                                      unselectedColor: Colors.grey[300],
+                                      unselectedTextStyle: TextStyle(
+                                        color: Colors.grey[600],
+                                      ),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    onSelected: (val, i, selected) =>
+                                        carrier = val.toString(),
+                                  ),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            onSelected: (val, i, selected) =>
-                                brand = val.toString(),
-                          ),
-                        ),
-                      ),
+                            );
+                          } else {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        }),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,), 
-                        Container(
+                    Container(
                       margin: EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Upload QR code & Images',
-                        style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color:Colors.white)
-                      ),
+                      child: Text('Upload QR code & Images',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
                     ),
-                                        SizedBox(height: 10,), 
+                    SizedBox(
+                      height: 10,
+                    ),
 
-                     Row(
-
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           height: 55,
                           width: 101,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Color(0xff535353)
+                              borderRadius: BorderRadius.circular(12),
+                              color: Color(0xff535353)),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
                           ),
-                          child: Icon(Icons.add,color: Colors.white,),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                          onTap: () => _selectImage(),
+                          child: Container(
+                            height: 55,
+                            width: 101,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Color(0xff535353)),
+                            child: _image == null
+                                ? Icon(
+                                    Icons.image,
+                                    color: Colors.white,
+                                  )
+                                : Image.memory(
+                                    _image!,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Container(
                           height: 55,
                           width: 101,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Color(0xff535353)
+                              borderRadius: BorderRadius.circular(12),
+                              color: Color(0xff535353)),
+                          child: Icon(
+                            Icons.qr_code,
+                            color: Colors.white,
                           ),
-                          child: Icon(Icons.image,color: Colors.white,),
-                        ),
-                          SizedBox(width: 10,),
-                        Container(
-                          height: 55,
-                          width: 101,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Color(0xff535353)
-                          ),
-                          child: Icon(Icons.qr_code,color: Colors.white,),
                         )
                       ],
-                     ),
-                      SizedBox(height: 10,), 
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
 
-                      Spacer(),
+                    Spacer(),
                     // SizedBox(
                     //   height: MediaQuery.of(context).size.height * 0.1,
                     //   child: StreamBuilder(
@@ -354,9 +418,9 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                     //     ),
                     //   ),
                     // ),
-                  
+
                     Container(
-                      margin: EdgeInsets.only(bottom: 20,top: 10),
+                      margin: EdgeInsets.only(bottom: 20, top: 10),
                       child: Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -366,24 +430,34 @@ class _BrandSelectScreenState extends State<BrandSelectScreen> {
                                 borderRadius: BorderRadius.circular(23)),
                           ),
                           onPressed: () {
-                            if (brand != null) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => AddOrderScreen(
-                                  brand: brand!,
+                            if (brand != null &&
+                                carrier != null &&
+                                _image != null) {
+                              print(brand! + price! + carrier!);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => AddAddress(
+                                    brand: brand,
+                                    price: price,
+                                    carrier: carrier,
+                                    image: _image,
+                                  ),
                                 ),
-                              ));
+                              );
                             } else {
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                  "Please Select the brand",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
+                              Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    "Please Select all options",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                  backgroundColor: Colors.red,
                                 ),
-                                duration: Duration(seconds: 2),
-                                backgroundColor: Colors.red,
-                              ));
+                              );
                             }
                           },
                           //  () {

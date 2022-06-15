@@ -53,7 +53,7 @@ class OrderHistoryWidget extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Post Office',
+              snap['carrier'].toString(),
               style: Theme.of(context)
                   .textTheme
                   .subtitle2!

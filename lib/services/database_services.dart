@@ -120,36 +120,47 @@ class DataBaseMethods {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> createOrder(
-      {required String brandName,
-      required String price,
-      required String category,
-      required String address,
-      required String orderId,
-      required String orderTime,
-      String res = "Some Error Occured"}) async {
+  Future<String> createOrder({
+    required String addressName,
+    required String address,
+    required String brand,
+    required String carrier,
+    required String floor,
+    required String price,
+    required Uint8List image,
+    required String catName,
+    required String category,
+    required String date,
+    required String orderId,
+  }) async {
+    String res = "Some Error Occured";
     try {
-      if (brandName.isNotEmpty || price.isNotEmpty) {
-        OrderModel user = OrderModel(
-          uid: FirebaseAuth.instance.currentUser!.uid,
-          brandName: brandName,
-          price: price,
-          orderId: orderId,
-          orderTime: orderTime,
-          address: address,
-          category: category,
-        );
+      String photoUrl =
+          await StorageMethods().uploadImageToStorage('OrderPics', image);
 
-        await _firestore
-            .collection('orders')
-            .doc('ordersList')
-            .collection(FirebaseAuth.instance.currentUser!.uid)
-            .doc(orderId)
-            .set(
-              user.toJSon(),
-            );
-        return res = 'added successfully';
-      }
+      OrderModel user = OrderModel(
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        brandName: brand,
+        price: price,
+        orderId: orderId,
+        orderDate: date,
+        address: address,
+        category: category,
+        carrier: carrier,
+        categoryName: catName,
+        imageUrl: photoUrl,
+        floor: floor,
+      );
+
+      await _firestore
+          .collection('orders')
+          .doc('ordersList')
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc(orderId)
+          .set(
+            user.toJSon(),
+          );
+      return res = 'added successfully';
     } catch (e) {
       return res = e.toString();
     }

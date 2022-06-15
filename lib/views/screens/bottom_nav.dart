@@ -1,6 +1,7 @@
 import 'package:couriercustomer/views/screens/add_order_screen.dart';
 import 'package:couriercustomer/views/screens/home_screen.dart';
 import 'package:couriercustomer/views/screens/order_place/brand_select_screen.dart';
+import 'package:couriercustomer/views/screens/orders_screen.dart';
 import 'package:flutter/material.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -59,10 +60,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 minWidth: 40,
                 onPressed: () {
                   setState(() {
-                    currentScreen = Text('Register Page',
-                        style: TextStyle(
-                            fontSize: 35, fontWeight: FontWeight.bold));
-                    // if user taps on this dashboard tab will be active
+                    currentScreen =
+                        const OrdersScreen(); // if user taps on this dashboard tab will be active
+
                     currentTab = 1;
                   });
                 },

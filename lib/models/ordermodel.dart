@@ -5,24 +5,30 @@ class OrderModel {
   final String? price;
   final String? uid;
   final String? category;
+  final String? categoryName;
   final String? arrivalTime;
   final String? address;
   final String? orderId;
   final String? courierStatus;
   final String? floor;
-  final String? orderTime;
+  final String? orderDate;
+  final String? carrier;
+  final String? imageUrl;
 
   OrderModel({
     required this.price,
     required this.uid,
     required this.brandName,
-    this.category,
-    this.arrivalTime,
+    required this.category,
     required this.address,
-    this.courierStatus,
-    this.floor,
+    required this.floor,
     required this.orderId,
-    required this.orderTime,
+    required this.orderDate,
+    required this.carrier,
+    required this.imageUrl,
+    required this.categoryName,
+    this.courierStatus,
+    this.arrivalTime,
   });
 
   Map<String, dynamic> toJSon() => {
@@ -35,7 +41,10 @@ class OrderModel {
         'courierStatus': courierStatus,
         'floor': floor,
         'orderId': orderId,
-        'orderTime': orderTime,
+        'orderTime': orderDate,
+        'carrier': carrier,
+        'imageUrl': imageUrl,
+        'categoryName': categoryName,
       };
 
   // static OrderModel fromSnapshot(DocumentSnapshot snap) {
