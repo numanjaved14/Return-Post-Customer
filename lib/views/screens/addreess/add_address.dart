@@ -37,7 +37,7 @@ class _AddAddressState extends State<AddAddress> {
 
   void getAddress() async {
     await getLocation()
-        .getCurrentLocation()
+        .getCurrentLocation(false)
         .then((value) => _addressController.text = value);
     // _addressController.text = _address.toString();
   }

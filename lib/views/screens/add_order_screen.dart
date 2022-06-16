@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:couriercustomer/services/geo_locator.dart';
 import 'package:couriercustomer/views/screens/bottom_nav.dart';
 import 'package:couriercustomer/views/screens/checkout/order_checkout.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../services/database_services.dart';
 
@@ -32,6 +34,7 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
   final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  String _date = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
   final formKey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -207,53 +210,92 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                         ),
                       )),
                   Container(
-                    margin: EdgeInsets.only(left: 30, top: 15),
-                    child: Text('Date',
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff8D8989))),
+                    margin: const EdgeInsets.only(left: 30, top: 15),
+                    child: const Text(
+                      'Date',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff8D8989),
+                      ),
+                    ),
                   ),
                   Container(
-                      height: 55,
-                      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                    height: 55,
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
 
-                      //  padding: const EdgeInsets.all(3.0),
-                      decoration: BoxDecoration(
-                        color: Color(0xff535353),
-                        borderRadius: new BorderRadius.circular(20),
-                      ),
-                      // border: Border.all(color: Colors.grey,width: 0.5)
-
-                      child: TextFormField(
+                    //  padding: const EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xff535353),
+                      borderRadius: new BorderRadius.circular(20),
+                    ),
+                    // border: Border.all(color: Colors.grey,width: 0.5)
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 18),
+                      child: DateTimePicker(
+                        type: DateTimePickerType.date,
+                        dateMask: 'd MMM, yyyy',
                         controller: _dateController,
-                        //  textAlign: TextAlign.start,
+                        // initialValue: _date,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                        icon: Icon(Icons.event),
+                        // dateLabelText: 'Date',
+                        // timeLabelText: "Hour",
+                        //use24HourFormat: false,
+                        //locale: Locale('pt', 'BR'),
+                        selectableDayPredicate: (date) {
+                          if (date.weekday == 6 || date.weekday == 7) {
+                            return false;
+                          }
+                          return true;
+                        },
+                        // onChanged: (val) => setState(() => _valueChanged1 = val),
+                        validator: (val) {
+                          // setState(() => _valueToValidate1 = val ?? '');
+                          return null;
+                        },
+                        // onSaved: (val) => setState(() => _valueSaved1 = val ?? ''),
                         decoration: InputDecoration(
-                          hintText: ' 02.04.2021',
-                          contentPadding: const EdgeInsets.only(
-                            top: 15,
-                            left: 20,
-                          ),
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.only(top: 13, right: 10),
-                            child: Icon(
-                              Icons.date_range,
-                              color: Color(0xff8D8989),
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          labelStyle: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal),
-                          hintStyle: GoogleFonts.getFont('Montserrat',
-                              fontWeight: FontWeight.w600,
-                              color: const Color(0xff8D8989),
-                              fontSize: 12,
-                              fontStyle: FontStyle.normal),
-                        ),
-                      )),
+                            border: InputBorder.none,
+                            suffixIcon: Icon(
+                              Icons.calendar_month,
+                              color: Colors.grey,
+                            )),
+                      ),
+                    ),
+                    // child: TextFormField(
+                    //   controller: _dateController,
+                    //   //  textAlign: TextAlign.start,
+                    //   decoration: InputDecoration(
+                    //     hintText: _date,
+                    //     contentPadding: const EdgeInsets.only(
+                    //       top: 15,
+                    //       left: 20,
+                    //     ),
+                    //     suffixIcon: Padding(
+                    //       padding: const EdgeInsets.only(top: 13, right: 10),
+                    //       child: IconButton(
+                    //         icon: const Icon(Icons.date_range),
+                    //         onPressed: () {},
+                    //         color: const Color(0xff8D8989),
+                    //       ),
+                    //     ),
+                    //     border: InputBorder.none,
+                    //     labelStyle: GoogleFonts.getFont('Montserrat',
+                    //         fontWeight: FontWeight.w600,
+                    //         color: Colors.white,
+                    //         fontSize: 12,
+                    //         fontStyle: FontStyle.normal),
+                    //     hintStyle: GoogleFonts.getFont('Montserrat',
+                    //         fontWeight: FontWeight.w600,
+                    //         color: const Color(0xff8D8989),
+                    //         fontSize: 12,
+                    //         fontStyle: FontStyle.normal),
+                    //   ),
+                    // ),
+                  ),
                   Container(
                     margin: EdgeInsets.only(left: 30, top: 15),
                     child: Text('Address',

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:couriercustomer/services/authmethods.dart';
 import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -78,13 +78,13 @@ class _MyDrawerState extends State<MyDrawer> {
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 14),
-                        ),)
-                      
+                        ),
+                      )
                     ],
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 10,bottom: 30,top: 20),
+                    margin: EdgeInsets.only(left: 10, bottom: 30, top: 20),
                     child: Text(
                       'General',
                       style: TextStyle(
@@ -94,20 +94,16 @@ class _MyDrawerState extends State<MyDrawer> {
                     )),
                 ListTile(
                   leading: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/options.png'),
-                    )
-                  ),
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/options.png'),
+                      )),
                   title: const Text(
                     'Profile Settings',
                     style: TextStyle(
@@ -130,24 +126,23 @@ class _MyDrawerState extends State<MyDrawer> {
                     //                   as Map<String, dynamic>)['photoUrl'],
                     //             )));
                   },
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                ),
-             ListTile(
-                  leading: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/credit-card.png'),
-                    )
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
                   ),
+                ),
+                ListTile(
+                  leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/credit-card.png'),
+                      )),
                   title: const Text(
                     'Payments',
                     style: TextStyle(
@@ -170,24 +165,23 @@ class _MyDrawerState extends State<MyDrawer> {
                     //                   as Map<String, dynamic>)['photoUrl'],
                     //             )));
                   },
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                ),
-                 ListTile(
-                  leading: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/chart-square-bar.png'),
-                    )
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
                   ),
+                ),
+                ListTile(
+                  leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/chart-square-bar.png'),
+                      )),
                   title: const Text(
                     'Transaction History',
                     style: TextStyle(
@@ -210,24 +204,23 @@ class _MyDrawerState extends State<MyDrawer> {
                     //                   as Map<String, dynamic>)['photoUrl'],
                     //             )));
                   },
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                ),
-                  ListTile(
-                  leading: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/cog.png'),
-                    )
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
                   ),
+                ),
+                ListTile(
+                  leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/cog.png'),
+                      )),
                   title: const Text(
                     'Settings',
                     style: TextStyle(
@@ -250,24 +243,23 @@ class _MyDrawerState extends State<MyDrawer> {
                     //                   as Map<String, dynamic>)['photoUrl'],
                     //             )));
                   },
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                ),
-                 ListTile(
-                  leading: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/user-group.png'),
-                    )
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
                   ),
+                ),
+                ListTile(
+                  leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/user-group.png'),
+                      )),
                   title: const Text(
                     'Support',
                     style: TextStyle(
@@ -290,24 +282,23 @@ class _MyDrawerState extends State<MyDrawer> {
                     //                   as Map<String, dynamic>)['photoUrl'],
                     //             )));
                   },
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                ),
-                 ListTile(
-                  leading: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/users.png'),
-                    )
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
                   ),
+                ),
+                ListTile(
+                  leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/users.png'),
+                      )),
                   title: const Text(
                     'Refer a friend and earn',
                     style: TextStyle(
@@ -330,35 +321,38 @@ class _MyDrawerState extends State<MyDrawer> {
                     //                   as Map<String, dynamic>)['photoUrl'],
                     //             )));
                   },
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
                 ),
                 ListTile(
-                  onTap:(){
-                  },
-                leading:  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.grey
-                      )
+                  onTap: () {},
+                  leading: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('assets/download.png'),
+                      )),
+                  title: InkWell(
+                    onTap: () => AuthMethods().signOutUser(context),
+                    child: const Text(
+                      'Log out',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: Colors.white),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/download.png'),
-                    )
                   ),
-                  title: const Text(
-                    'Log out',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        color: Colors.white),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,),
-                  
                 ),
               ],
             ),

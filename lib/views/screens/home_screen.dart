@@ -4,6 +4,9 @@ import 'package:couriercustomer/views/widgets/order_history_widget.dart';
 import 'package:couriercustomer/widgets/mydrawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../services/geo_locator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _dataRecieved = false;
+  String _address = 'Address';
   // @override
   // void initState() {
   //   super.initState();
@@ -31,30 +35,52 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    getAddress();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getAddress() async {
+    await getLocation()
+        .getCurrentLocation(true)
+        .then((value) => _address = value);
+    setState(() {
+      _address;
+    });
+    // _addressController.text = _address.toString();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
 
     var size = MediaQuery.of(context).size;
     return Scaffold(
       key: scaffoldKey,
-      appBar:AppBar(
+      appBar: AppBar(
         elevation: 0,
-        title: Text('Address',style: TextStyle(color: Colors.white,),),
+        title: Text(
+          _address,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Color(0xff404040),
         leading: InkWell(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (builder) => AddAddress()));
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (builder) => AddAddress()));
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset('assets/map.png'),
           ),
         ),
-        
         actions: [
           InkWell(
-            onTap: (){
-            scaffoldKey.currentState?.openDrawer();
+            onTap: () {
+              scaffoldKey.currentState?.openDrawer();
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -103,12 +129,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                 snapshot) {
                           if (snapshot.hasData) {
                             print(snapshot.data!.docs.toString());
-                            return ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) => OrderHistoryWidget(
-                                snap: snapshot.data!.docs[index].data(),
-                              ),
-                            );
+                            if (snapshot.data!.docs.length < 1) {
+                              return Center(
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset('assets/no_data.svg',
+                                        semanticsLabel: 'No Data'),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) =>
+                                    OrderHistoryWidget(
+                                  snap: snapshot.data!.docs[index].data(),
+                                ),
+                              );
+                            }
                           } else {
                             return const Center(
                               child: CircularProgressIndicator(),

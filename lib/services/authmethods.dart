@@ -1,8 +1,11 @@
 import 'dart:typed_data';
 
+import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couriercustomer/models/usermodel.dart' as model;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../services/storage_methods.dart';
 
@@ -75,6 +78,22 @@ class AuthMethods {
       } else {
         res = 'Please enter all the Fields';
       }
+    } catch (error) {
+      res = error.toString();
+    }
+    return res;
+  }
+
+  Future<String> signOutUser(BuildContext context) async {
+    String res = 'Some error occured';
+    try {
+      await _auth.signOut();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const Signinpage(),
+        ),
+      );
+      res = 'Success';
     } catch (error) {
       res = error.toString();
     }

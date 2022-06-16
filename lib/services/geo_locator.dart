@@ -16,7 +16,7 @@ class getLocation {
   //   return LocationStatus(enabled, status);
   // }
 
-  Future<String> getCurrentLocation() async {
+  Future<String> getCurrentLocation(bool _isHome) async {
     await Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
@@ -26,6 +26,9 @@ class getLocation {
 
     var first = addresses.first;
     print("${first.name} : ${first..administrativeArea}");
+    if (_isHome) {
+      return ('${first.subAdministrativeArea}, ${first.street}');
+    }
     return ('${first.country}, ${first.subAdministrativeArea}, ${first.street}');
   }
 }
