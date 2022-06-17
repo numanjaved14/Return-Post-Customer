@@ -80,11 +80,14 @@ class _OrderCheckOutState extends State<OrderCheckOut> {
             ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
-              child: Text('Delivery to',
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff8D8989))),
+              child: Text(
+                'Delivery to',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff8D8989),
+                ),
+              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 15),
@@ -133,18 +136,19 @@ class _OrderCheckOutState extends State<OrderCheckOut> {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(left: 5),
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Edit',
-                    style: GoogleFonts.getFont('Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        color: Color(0xff0E7DE3),
-                        fontStyle: FontStyle.normal),
-                  ),
-                )),
+              margin: EdgeInsets.only(left: 5),
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Edit',
+                  style: GoogleFonts.getFont('Montserrat',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: Color(0xff0E7DE3),
+                      fontStyle: FontStyle.normal),
+                ),
+              ),
+            ),
             Container(
                 margin: EdgeInsets.only(left: 20, top: 5, right: 20),
                 child: Divider(

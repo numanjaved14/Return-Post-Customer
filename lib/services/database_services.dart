@@ -66,32 +66,25 @@ class DataBaseMethods {
     // _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
   }
 
-  Future<String> UpdateUser({
-    required String email,
-    required String password,
-    required String username,
-    required String? id,
-    String? referalCode,
-    String? photoUrl,
-    required String? address,
-    String res = "Some Error Occured",
+  Future<String> UpdateCustomerUser({
+    required String key,
+    required String value,
+    Uint8List? file,
   }) async {
+    String res = "Some Error Occured";
     try {
-      if (email.isNotEmpty || password.isNotEmpty) {
-        UserModel user = UserModel(
-          email: email,
-          uid: id,
-          photoUrl: photoUrl,
-          username: username,
-          referal: referalCode,
-          address: address,
-        );
-
-        await _firestore.collection('users').doc(id).update(
-              user.toJSon(),
-            );
-        return res = 'updated successfully';
+      String? photoUrl;
+      if (key == 'photoUrl') {
+        photoUrl =
+            await StorageMethods().uploadImageToStorage('ProfilePics', file!);
       }
+      await _firestore
+          .collection('customers')
+          .doc(_firebaseAuth.currentUser!.uid)
+          .update(
+        {key: key == 'photoUrl' ? photoUrl : value},
+      );
+      return res = 'updated successfully';
     } catch (e) {
       return res = e.toString();
     }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couriercustomer/services/authmethods.dart';
 import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
+import 'package:couriercustomer/views/screens/profile_edit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   bool _isLoading = false;
+  var userData;
 
   // DocumentSnapshot? snapshot;
   // @override
@@ -31,13 +33,21 @@ class _MyDrawerState extends State<MyDrawer> {
   //     snapshot = snap;
   //   });
   // }
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _isLoading = true;
+    });
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     // UserModel user = Provider.of<UserProvider>(context).getUser;
 
-    return _isLoading == true
-        ? CircularProgressIndicator.adaptive()
+    return _isLoading
+        ? const Center(child: CircularProgressIndicator.adaptive())
         : Drawer(
             backgroundColor: Color(0xff404040),
             child: ListView(
@@ -73,7 +83,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         ),
                         title: Text(
                           // user.username!,
-                          ("Fawad Kaleem"),
+                          userData['username'].toString(),
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
@@ -112,19 +122,12 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.white),
                   ),
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (builder) => ProfileSettings(
-                    //               username: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['username'],
-                    //               email: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['email'],
-                    //               address: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['address'],
-                    //               photoUrl: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['photoUrl'],
-                    //             )));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (builder) => const ProfileEdit(),
+                      ),
+                    );
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -357,5 +360,15 @@ class _MyDrawerState extends State<MyDrawer> {
               ],
             ),
           );
+  }
+
+  void getData() async {
+    userData = await FirebaseFirestore.instance
+        .collection('customers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
