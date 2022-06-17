@@ -102,19 +102,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'My Orders',
+                    'New Orders',
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
                         .copyWith(color: Colors.white),
                   ),
-                  Text(
-                    'Today',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1!
-                        .copyWith(color: Colors.grey),
-                  ),
+                 
                   SizedBox(
                     height: size.height * 0.78,
                     width: double.infinity,
@@ -130,13 +124,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (snapshot.hasData) {
                             print(snapshot.data!.docs.toString());
                             if (snapshot.data!.docs.length < 1) {
-                              return Center(
-                                child: Column(
+                              return  Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SvgPicture.asset('assets/no_data.svg',
                                         semanticsLabel: 'No Data'),
+                                    Text('No Orders',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18,)),
+                                    SizedBox(height: 5,),
+                                    Text('Your order history is empty',style: TextStyle(color: Color(0xff8D8989),fontWeight: FontWeight.w600,fontSize: 14,))    
                                   ],
-                                ),
+                                
                               );
                             } else {
                               return ListView.builder(

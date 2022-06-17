@@ -52,20 +52,11 @@ class _AddAddressState extends State<AddAddress> {
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
+                
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset('assets/back.png'),
-                )),
+            child: Image.asset('assets/backs.png'),
           ),
         ),
       ),
@@ -226,9 +217,9 @@ class _AddAddressState extends State<AddAddress> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xffEB5757),
-                  minimumSize: Size(210, 60),
+                  minimumSize: Size(310, 60),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(24)),
                 ),
                 onPressed: () async {
                   if (_nameController.text.isNotEmpty &&
