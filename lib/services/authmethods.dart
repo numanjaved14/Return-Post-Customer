@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:couriercustomer/services/database_services.dart';
 import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -92,6 +93,24 @@ class AuthMethods {
         MaterialPageRoute(
           builder: (context) => const Signinpage(),
         ),
+      );
+      res = 'Success';
+    } catch (error) {
+      res = error.toString();
+    }
+    return res;
+  }
+
+  Future<String> changeEmail(String email, String pass, String newEmail) async {
+    String res = 'Some error occured';
+    try {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: pass)
+          .then((userCredential) {
+        userCredential.user!.updateEmail(newEmail);
+      }).then(
+        (value) =>
+            DataBaseMethods().UpdateCustomerUser(key: 'email', value: newEmail),
       );
       res = 'Success';
     } catch (error) {

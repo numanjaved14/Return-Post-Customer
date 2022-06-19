@@ -78,6 +78,9 @@ class DataBaseMethods {
         photoUrl =
             await StorageMethods().uploadImageToStorage('ProfilePics', file!);
       }
+      // if (key == 'email') {
+      //   await _firebaseAuth.currentUser!.updateEmail(value);
+      // }
       await _firestore
           .collection('customers')
           .doc(_firebaseAuth.currentUser!.uid)
@@ -85,7 +88,8 @@ class DataBaseMethods {
         {key: key == 'photoUrl' ? photoUrl : value},
       );
       return res = 'updated successfully';
-    } catch (e) {
+    } on FirebaseException catch (e) {
+      print(e.message.toString());
       return res = e.toString();
     }
     return res;

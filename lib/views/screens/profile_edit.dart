@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couriercustomer/models/usermodel.dart';
+import 'package:couriercustomer/services/authmethods.dart';
 import 'package:couriercustomer/services/database_services.dart';
 import 'package:couriercustomer/services/storage_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,14 +21,25 @@ class ProfileEdit extends StatefulWidget {
 
 class _ProfileEditState extends State<ProfileEdit> {
   TextEditingController _fieldController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   Uint8List? _image;
   var userData;
   bool _hasData = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _fieldController.dispose();
+    _passController.dispose();
+    _emailController.dispose();
   }
 
   @override
@@ -81,13 +93,12 @@ class _ProfileEditState extends State<ProfileEdit> {
                         Container(
                           height: 70,
                           width: 70,
-                          decoration: BoxDecoration(
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(28),
-                            color: Colors.white,
-                          ),
-                          child: Image.network(
-                            userData['photoUrl'],
-                            fit: BoxFit.cover,
+                            child: Image.network(
+                              userData['photoUrl'],
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -219,7 +230,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   Container(
                     margin: const EdgeInsets.only(left: 5),
                     child: TextButton(
-                      onPressed: () => showAlertDialog('Email'),
+                      onPressed: () => showEmailAlertDialog(userData['email']),
                       child: Text(
                         'Edit',
                         style: GoogleFonts.getFont('Montserrat',
@@ -240,6 +251,9 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   showAlertDialog(String title) {
+    setState(() {
+      _isLoading = false;
+    });
     return showDialog(
       context: context,
       builder: (context) {
@@ -311,23 +325,187 @@ class _ProfileEditState extends State<ProfileEdit> {
                 ),
                 // border: Border.all(color: Colors.grey,width: 0.5)
 
-                child: const Center(
-                  child: Text(
-                    'Save',
-                    style: TextStyle(
-                      color: Color(0xffEB5757),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
+                child: Center(
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          'Save',
+                          style: TextStyle(
+                            color: Color(0xffEB5757),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
                 ),
               ),
               onPressed: () async {
-                var res = DataBaseMethods().UpdateCustomerUser(
-                    key: title == 'Name' ? 'username' : '',
+                setState(() {
+                  _isLoading = true;
+                });
+                var res = await DataBaseMethods().UpdateCustomerUser(
+                    key: title == 'Name' ? 'username' : 'email',
                     value: _fieldController.text);
                 if (res == 'updated successfully') {
+                  setState(() {
+                    _isLoading = false;
+                    _fieldController.clear();
+                  });
                   Navigator.of(context).pop();
+                  getData();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  showEmailAlertDialog(String email) {
+    setState(() {
+      _isLoading = false;
+    });
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          backgroundColor: const Color(0xffEB5757),
+          // shape: ,
+          title: const Text(
+            'Change Email',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 24,
+            ),
+          ),
+          children: [
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                height: 55,
+                margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+
+                //  padding: const EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                // border: Border.all(color: Colors.grey,width: 0.5)
+
+                child: TextFormField(
+                  controller: _passController,
+                  validator: (e) {
+                    if (e!.isEmpty) {
+                      return "Please Enter field";
+                    }
+                  },
+                  obscureText: false,
+                  //  textAlign: TextAlign.start,
+                  decoration: InputDecoration(
+                    hintText: ' Enter your old Password',
+                    contentPadding: EdgeInsets.only(top: 10, left: 20),
+                    border: InputBorder.none,
+                    fillColor: Colors.white,
+                    hintStyle: GoogleFonts.getFont('Montserrat',
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xffEB5757),
+                        fontSize: 12,
+                        fontStyle: FontStyle.normal),
+                    // hintStyle: TextStyle(
+
+                    //   color: Color(0xff8D8989), // <-- Change this
+                    //   fontSize: 12,
+                    //   fontWeight: FontWeight.w600,
+                    //   fontStyle: FontStyle.normal,
+                    // ),
+                  ),
+                ),
+              ),
+            ),
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                height: 55,
+                margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+
+                //  padding: const EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.circular(20),
+                ),
+                // border: Border.all(color: Colors.grey,width: 0.5)
+
+                child: TextFormField(
+                  controller: _emailController,
+                  validator: (e) {
+                    if (e!.isEmpty) {
+                      return "Please Enter field";
+                    }
+                  },
+                  obscureText: false,
+                  //  textAlign: TextAlign.start,
+                  decoration: InputDecoration(
+                    hintText: ' Enter new Email',
+                    contentPadding: EdgeInsets.only(top: 10, left: 20),
+                    border: InputBorder.none,
+                    fillColor: Colors.white,
+                    hintStyle: GoogleFonts.getFont('Montserrat',
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xffEB5757),
+                        fontSize: 12,
+                        fontStyle: FontStyle.normal),
+                    // hintStyle: TextStyle(
+
+                    //   color: Color(0xff8D8989), // <-- Change this
+                    //   fontSize: 12,
+                    //   fontWeight: FontWeight.w600,
+                    //   fontStyle: FontStyle.normal,
+                    // ),
+                  ),
+                ),
+              ),
+            ),
+            SimpleDialogOption(
+              child: Container(
+                height: 55,
+                margin: const EdgeInsets.only(left: 30, right: 30, top: 10),
+
+                //  padding: const EdgeInsets.all(3.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                // border: Border.all(color: Colors.grey,width: 0.5)
+
+                child: Center(
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                          'Save',
+                          style: TextStyle(
+                            color: Color(0xffEB5757),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                ),
+              ),
+              onPressed: () async {
+                setState(() {
+                  _isLoading = true;
+                });
+                var res = await AuthMethods().changeEmail(
+                    email, _passController.text, _emailController.text);
+                if (res == 'Success') {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                  _emailController.clear();
+                  _passController.clear();
+                  Navigator.of(context).pop();
+                  getData();
                 }
               },
             ),
@@ -424,6 +602,9 @@ class _ProfileEditState extends State<ProfileEdit> {
   }
 
   void getData() async {
+    setState(() {
+      _hasData = false;
+    });
     userData = await FirebaseFirestore.instance
         .collection('customers')
         .doc(FirebaseAuth.instance.currentUser!.uid)

@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool _dataRecieved = false;
   String _address = 'Address';
+  var userData;
   // @override
   // void initState() {
   //   super.initState();
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     getAddress();
+    getUserData();
     // TODO: implement initState
     super.initState();
   }
@@ -84,7 +86,20 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/pic.png'),
+              child: userData['photoUrl'] == null
+                  ? Image.asset('assets/pic.png')
+                  : Container(
+                      height: 50,
+                      width: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(28),
+                        child: Image.network(
+                          userData['photoUrl'],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+              // child: Image.asset('assets/pic.png'),
             ),
           )
         ],
@@ -108,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         .headline5!
                         .copyWith(color: Colors.white),
                   ),
-                 
                   SizedBox(
                     height: size.height * 0.78,
                     width: double.infinity,
@@ -124,16 +138,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (snapshot.hasData) {
                             print(snapshot.data!.docs.toString());
                             if (snapshot.data!.docs.length < 1) {
-                              return  Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset('assets/no_data.svg',
-                                        semanticsLabel: 'No Data'),
-                                    Text('No Orders',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 18,)),
-                                    SizedBox(height: 5,),
-                                    Text('Your order history is empty',style: TextStyle(color: Color(0xff8D8989),fontWeight: FontWeight.w600,fontSize: 14,))    
-                                  ],
-                                
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset('assets/no_data.svg',
+                                      semanticsLabel: 'No Data'),
+                                  Text('No Orders',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18,
+                                      )),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text('Your order history is empty',
+                                      style: TextStyle(
+                                        color: Color(0xff8D8989),
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ))
+                                ],
                               );
                             } else {
                               return ListView.builder(
@@ -158,5 +183,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void getUserData() async {
+    // setState(() {
+    //   _dataRecieved = false;
+    // });
+    userData = await FirebaseFirestore.instance
+        .collection('customers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      // _hasData = true;
+      userData;
+    });
   }
 }

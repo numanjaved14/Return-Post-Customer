@@ -75,10 +75,16 @@ class _MyDrawerState extends State<MyDrawer> {
                       ListTile(
                         leading: CircleAvatar(
                           radius: 20,
-                          child: Image.asset(
-                            // user.photoUrl!,
-                            ("assets/pic.png"),
-                            fit: BoxFit.cover,
+                          child: Container(
+                            height: 70,
+                            width: 70,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(28),
+                              child: Image.network(
+                                userData['photoUrl'],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                         title: Text(
