@@ -4,6 +4,7 @@ import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
 import 'package:couriercustomer/views/screens/bottom_nav.dart';
 import 'package:couriercustomer/views/screens/order_place/brand_select_screen.dart';
 import 'package:couriercustomer/widgets/mydrawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       // home: const Signinpage(),
-      home: WelcomeN(),
+      home: FirebaseAuth.instance.currentUser == null
+          ? const WelcomeN()
+          : MyNavigationBar(),
     );
   }
 }

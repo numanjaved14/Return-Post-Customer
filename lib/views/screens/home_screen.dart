@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _dataRecieved = false;
+  bool _userdataRecieved = false;
   String _address = 'Address';
   var userData;
   // @override
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: userData['photoUrl'] == null
+              child: !_userdataRecieved
                   ? Image.asset('assets/pic.png')
                   : Container(
                       height: 50,
@@ -186,15 +187,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getUserData() async {
-    // setState(() {
-    //   _dataRecieved = false;
-    // });
+    setState(() {
+      _userdataRecieved = false;
+    });
     userData = await FirebaseFirestore.instance
         .collection('customers')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
     setState(() {
-      // _hasData = true;
+      _userdataRecieved = true;
       userData;
     });
   }
