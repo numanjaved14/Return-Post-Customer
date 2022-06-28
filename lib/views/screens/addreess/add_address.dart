@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:couriercustomer/services/geo_locator.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddAddress extends StatefulWidget {
   String? brand, carrier, price;
@@ -26,20 +28,34 @@ class _AddAddressState extends State<AddAddress> {
   final TextEditingController _nameController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   TextEditingController _floorController = TextEditingController();
+  Completer<GoogleMapController> _controller = Completer();
   var _address;
+  List<double>? latlong;
+  bool _gotLatLong = false;
 
   @override
   void initState() {
     getAddress();
-    // TODO: implement initState
+    getLatLong();
     super.initState();
   }
 
   void getAddress() async {
-    await getLocation()
-        .getCurrentLocation(false)
-        .then((value) => _addressController.text = value);
+    await getLocation().getCurrentLocation(false).then((value) {
+      setState(() {
+        _addressController.text = value;
+      });
+    });
     // _addressController.text = _address.toString();
+  }
+
+  void getLatLong() async {
+    await getLocation().getLatLong().then((value) {
+      latlong = value;
+      setState(() {
+        _gotLatLong = true;
+      });
+    });
   }
 
   @override
@@ -52,7 +68,6 @@ class _AddAddressState extends State<AddAddress> {
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
-                
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -65,7 +80,7 @@ class _AddAddressState extends State<AddAddress> {
         children: [
           Container(
               margin: EdgeInsets.only(left: 10, top: 15),
-              child: Text(
+              child: const Text(
                 'Add your address',
                 style: TextStyle(
                     color: Colors.white,
@@ -73,8 +88,34 @@ class _AddAddressState extends State<AddAddress> {
                     fontWeight: FontWeight.w600),
               )),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('assets/maps.png'),
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: SizedBox(
+                height: 130,
+                width: 310,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(26),
+                  child: _gotLatLong
+                      ? GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(latlong![0], latlong![1]),
+                            zoom: 20,
+                          ),
+                          mapType: MapType.normal,
+                          compassEnabled: true,
+                          zoomControlsEnabled: false,
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: true,
+                          onMapCreated: (GoogleMapController controller) {
+                            _controller.complete(controller);
+                          },
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                ),
+              ),
+            ),
           ),
           Container(
               margin: EdgeInsets.only(left: 10, top: 15),
@@ -235,6 +276,8 @@ class _AddAddressState extends State<AddAddress> {
                           floor: _floorController.text,
                           image: widget.image,
                           price: widget.price,
+                          lati: latlong![0],
+                          longi: latlong![1],
                         ),
                       ),
                     );

@@ -31,4 +31,17 @@ class getLocation {
     }
     return ('${first.country}, ${first.subAdministrativeArea}, ${first.street}');
   }
+
+  Future<List<double>> getLatLong() async {
+    List<double> latlong = [];
+
+    await Geolocator.requestPermission();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+
+    latlong.add(position.latitude);
+    latlong.add(position.longitude);
+
+    return latlong;
+  }
 }

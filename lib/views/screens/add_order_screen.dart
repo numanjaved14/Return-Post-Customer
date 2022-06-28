@@ -12,6 +12,7 @@ import '../../services/database_services.dart';
 
 class AddOrderScreen extends StatefulWidget {
   String? brand, carrier, price, aName, address, floor;
+  double? lati, longi;
   Uint8List? image;
 
   AddOrderScreen({
@@ -23,6 +24,8 @@ class AddOrderScreen extends StatefulWidget {
     this.floor,
     this.price,
     this.image,
+    this.lati,
+    this.longi,
   }) : super(key: key);
 
   @override
@@ -245,12 +248,12 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                         // timeLabelText: "Hour",
                         //use24HourFormat: false,
                         //locale: Locale('pt', 'BR'),
-                        selectableDayPredicate: (date) {
-                          if (date.weekday == 6 || date.weekday == 7) {
-                            return false;
-                          }
-                          return true;
-                        },
+                        // selectableDayPredicate: (date) {
+                        //   if (date.weekday == 6 || date.weekday == 7) {
+                        //     return false;
+                        //   }
+                        //   return true;
+                        // },
                         // onChanged: (val) => setState(() => _valueChanged1 = val),
                         validator: (val) {
                           // setState(() => _valueToValidate1 = val ?? '');
@@ -358,6 +361,8 @@ class _AddOrderScreenState extends State<AddOrderScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => OrderCheckOut(
+                            lati: widget.lati,
+                            longi: widget.longi,
                             aName: widget.aName,
                             address: _addressController.text,
                             brand: widget.brand,

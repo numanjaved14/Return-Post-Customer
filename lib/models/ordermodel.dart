@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderModel {
@@ -14,6 +16,8 @@ class OrderModel {
   final String? orderDate;
   final String? carrier;
   final String? imageUrl;
+  final double? lati;
+  final double? longi;
 
   OrderModel({
     required this.price,
@@ -27,6 +31,8 @@ class OrderModel {
     required this.carrier,
     required this.imageUrl,
     required this.categoryName,
+    required this.lati,
+    required this.longi,
     this.courierStatus,
     this.arrivalTime,
   });
@@ -45,6 +51,8 @@ class OrderModel {
         'carrier': carrier,
         'imageUrl': imageUrl,
         'categoryName': categoryName,
+        'latitude': lati,
+        'longitude': longi,
       };
 
   // static OrderModel fromSnapshot(DocumentSnapshot snap) {

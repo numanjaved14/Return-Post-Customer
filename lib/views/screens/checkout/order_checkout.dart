@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:couriercustomer/views/screens/order_place/near_courrier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,6 +11,7 @@ import '../bottom_nav.dart';
 
 class OrderCheckOut extends StatefulWidget {
   String? brand, carrier, price, aName, address, floor, catName, category, date;
+  double? lati, longi;
   Uint8List? image;
 
   OrderCheckOut({
@@ -24,6 +26,8 @@ class OrderCheckOut extends StatefulWidget {
     this.catName,
     this.category,
     this.date,
+    this.lati,
+    this.longi,
   }) : super(key: key);
 
   @override
@@ -430,15 +434,15 @@ class _OrderCheckOutState extends State<OrderCheckOut> {
                           date: widget.date!,
                           floor: widget.floor!,
                           image: widget.image!,
+                          lati: widget.lati!,
+                          longi: widget.longi!,
                           orderId: DateTime.now().toString(),
                         )
                         .then(
                           (value) => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (builder) => MyNavigationBar(
-                                  // title: '',
-                                  ),
+                              builder: (builder) => const NearCourrier(),
                             ),
                           ),
                         );

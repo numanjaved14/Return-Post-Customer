@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:couriercustomer/models/usermodel.dart';
 import 'package:couriercustomer/models/usermodel.dart' as model;
 import 'package:couriercustomer/services/storage_methods.dart';
+import 'package:intl/intl.dart';
 
 class DataBaseMethods {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -129,6 +130,8 @@ class DataBaseMethods {
     required String category,
     required String date,
     required String orderId,
+    required double lati,
+    required double longi,
   }) async {
     String res = "Some Error Occured";
     try {
@@ -139,7 +142,8 @@ class DataBaseMethods {
         uid: FirebaseAuth.instance.currentUser!.uid,
         brandName: brand,
         price: price,
-        orderId: orderId,
+        orderId: FirebaseAuth.instance.currentUser!.uid,
+        // orderId: orderId,
         orderDate: date,
         address: address,
         category: category,
@@ -147,17 +151,66 @@ class DataBaseMethods {
         categoryName: catName,
         imageUrl: photoUrl,
         floor: floor,
+        lati: lati,
+        longi: longi,
+        courierStatus: 'Acceptance pending',
       );
 
       await _firestore
           .collection('orders')
           .doc('ordersList')
           .collection(FirebaseAuth.instance.currentUser!.uid)
-          .doc(orderId)
+          .doc(FirebaseAuth.instance.currentUser!.uid) //Replace it by orderId
           .set(
             user.toJSon(),
           );
       return res = 'added successfully';
+    } catch (e) {
+      return res = e.toString();
+    }
+    return res;
+
+    // _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
+  }
+
+  Future<String> startNavigaion({
+    required String clientId,
+    required String courierId,
+    required double clientLongi,
+    required double clientLati,
+    required double courierLati,
+    required double courierLongi,
+  }) async {
+    String res = "Some Error Occured";
+    try {
+      await _firestore
+          .collection('orders')
+          .doc('ordersList')
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid) //Replace it by orderId
+          .update(
+        {'courierStatus': 'Courier on the way'},
+      );
+      await _firestore
+          .collection('locations')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'clientId': clientId,
+        'courierId': courierId,
+        'clientLongi': clientLongi,
+        'clientLati': clientLati,
+        'courierLongi': courierLongi,
+        'courierLati': courierLati,
+        'orderId':
+            FirebaseAuth.instance.currentUser!.uid, //Replace it by orderId
+        'requestedTime': DateFormat().add_yMMMMd().format(DateTime.now()),
+        'startedTime': null,
+        'endedTime': null,
+        'orderStatus': 'Courier on the way',
+        'arrivalTime': null,
+        'distance': null,
+      });
+      return res = 'success';
     } catch (e) {
       return res = e.toString();
     }
