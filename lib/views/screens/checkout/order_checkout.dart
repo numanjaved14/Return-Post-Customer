@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:couriercustomer/views/screens/order_place/near_courrier.dart';
@@ -5,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../services/database_services.dart';
+import '../../../services/geo_locator.dart';
 import '../bottom_nav.dart';
 
 class OrderCheckOut extends StatefulWidget {
@@ -36,6 +39,27 @@ class OrderCheckOut extends StatefulWidget {
 
 class _OrderCheckOutState extends State<OrderCheckOut> {
   bool _isLoading = false;
+  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController? newGoogleMapController;
+  var _address;
+  List<double>? latlong;
+  bool _gotLatLong = false;
+
+  @override
+  void initState() {
+    getLatLong();
+    super.initState();
+  }
+
+  void getLatLong() async {
+    await getLocation().getLatLong().then((value) {
+      latlong = value;
+      setState(() {
+        _gotLatLong = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,9 +103,203 @@ class _OrderCheckOutState extends State<OrderCheckOut> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/maps.png'),
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: SizedBox(
+                  height: 130,
+                  width: 310,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(26),
+                    child: _gotLatLong
+                        ? GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(latlong![0], latlong![1]),
+                              zoom: 16,
+                            ),
+                            mapType: MapType.normal,
+                            compassEnabled: true,
+                            zoomControlsEnabled: false,
+                            myLocationEnabled: true,
+                            myLocationButtonEnabled: true,
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                              newGoogleMapController = controller;
+                              newGoogleMapController!.setMapStyle('''
+                      [
+                        {
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#242f3e"
+                            }
+                          ]
+                        },
+                        {
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#746855"
+                            }
+                          ]
+                        },
+                        {
+                          "elementType": "labels.text.stroke",
+                          "stylers": [
+                            {
+                              "color": "#242f3e"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "administrative.locality",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#d59563"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#d59563"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi.park",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#263c3f"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "poi.park",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#6b9a76"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#38414e"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road",
+                          "elementType": "geometry.stroke",
+                          "stylers": [
+                            {
+                              "color": "#212a37"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#9ca5b3"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.highway",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#746855"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.highway",
+                          "elementType": "geometry.stroke",
+                          "stylers": [
+                            {
+                              "color": "#1f2835"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "road.highway",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#f3d19c"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "transit",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#2f3948"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "transit.station",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#d59563"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "water",
+                          "elementType": "geometry",
+                          "stylers": [
+                            {
+                              "color": "#17263c"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "water",
+                          "elementType": "labels.text.fill",
+                          "stylers": [
+                            {
+                              "color": "#515c6d"
+                            }
+                          ]
+                        },
+                        {
+                          "featureType": "water",
+                          "elementType": "labels.text.stroke",
+                          "stylers": [
+                            {
+                              "color": "#17263c"
+                            }
+                          ]
+                        }
+                      ]
+                  ''');
+                            },
+                          )
+                        : const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                  ),
+                ),
+              ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Image.asset('assets/maps.png'),
+            // ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
               child: Text(

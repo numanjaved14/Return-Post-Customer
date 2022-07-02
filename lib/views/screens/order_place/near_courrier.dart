@@ -18,27 +18,29 @@ class NearCourrier extends StatefulWidget {
 
 class _NearCourrierState extends State<NearCourrier> {
   Completer<GoogleMapController> _controller = Completer();
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  GoogleMapController? newGoogleMapController;
+  Set<Marker> markers = Set();
+  // Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<Map> cPosin1km = <Map>[];
   Map userLocation = {};
   bool marked = false;
 
-  void _addMerker(String id, double lat, long) {
-    // creating a new MARKER
-    final Marker marker = Marker(
-      markerId: MarkerId('c $id'),
-      position: LatLng(lat, long),
-      infoWindow: InfoWindow(title: id, snippet: '*'),
-      onTap: () {
-        showBotomSheet(context, int.parse(id));
-      },
-    );
+  // void _addMerker(String id, double lat, long) {
+  //   // creating a new MARKER
+  //   final Marker marker = Marker(
+  //     markerId: MarkerId('c $id'),
+  //     position: LatLng(lat, long),
+  //     infoWindow: InfoWindow(title: id, snippet: '*'),
+  //     onTap: () {
+  //       showBotomSheet(context, int.parse(id));
+  //     },
+  //   );
 
-    // setState(() {
-    //   // adding a new marker to map
-    //   markers[MarkerId(id)] = marker;
-    // });
-  }
+  //   // setState(() {
+  //   //   // adding a new marker to map
+  //   //   markers[MarkerId(id)] = marker;
+  //   // });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class _NearCourrierState extends State<NearCourrier> {
                     userLocation['latitude'] = position[0]['latitude'];
                     userLocation['longitude'] = position[0]['longitude'];
 
-                    debugPrint("C.............." + cPosin1km.toString());
+                    debugPrint("Before.............." + cPosin1km.toString());
 
                     for (int i = 0; i < cPos.length; i++) {
                       var p = 0.017453292519943295;
@@ -112,11 +114,28 @@ class _NearCourrierState extends State<NearCourrier> {
                       }
                     }
 
-                    debugPrint("C.............." + cPosin1km.toString());
+                    debugPrint("After.............." + cPosin1km.toString());
 
                     for (int i = 0; i < cPosin1km.length; i++) {
-                      _addMerker(i.toString(), cPosin1km[i]['latitude'],
-                          cPosin1km[i]['longitude']);
+                      // _addMerker(i.toString(), cPosin1km[i]['latitude'],
+                      //     cPosin1km[i]['longitude']);
+                      markers.add(
+                        Marker(
+                            //add start location marker
+                            markerId: MarkerId(i.toString()),
+                            position: LatLng(cPosin1km[i]['latitude'],
+                                cPosin1km[i]['longitude']), //position of marker
+                            // infoWindow: InfoWindow(
+                            //   //popup info
+                            //   title: 'Courier',
+                            //   snippet: 'Start Marker',
+                            // ),
+                            icon: BitmapDescriptor
+                                .defaultMarker, //Icon for Marker
+                            onTap: () {
+                              showBotomSheet(context, i);
+                            }),
+                      );
                       debugPrint('Marker Added');
                       if (i == cPosin1km.length - 1) {
                         marked = true;
@@ -127,7 +146,7 @@ class _NearCourrierState extends State<NearCourrier> {
                         ? Column(
                             children: [
                               SizedBox(
-                                height: 300,
+                                height: MediaQuery.of(context).size.height,
                                 width: double.infinity,
                                 child: GoogleMap(
                                   initialCameraPosition: CameraPosition(
@@ -143,8 +162,172 @@ class _NearCourrierState extends State<NearCourrier> {
                                   onMapCreated:
                                       (GoogleMapController controller) {
                                     _controller.complete(controller);
+                                    newGoogleMapController = controller;
+                                    newGoogleMapController!.setMapStyle('''
+                    [
+                      {
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#242f3e"
+                          }
+                        ]
+                      },
+                      {
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#746855"
+                          }
+                        ]
+                      },
+                      {
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                          {
+                            "color": "#242f3e"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "administrative.locality",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#d59563"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "poi",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#d59563"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "poi.park",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#263c3f"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "poi.park",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#6b9a76"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#38414e"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                          {
+                            "color": "#212a37"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#9ca5b3"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road.highway",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#746855"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road.highway",
+                        "elementType": "geometry.stroke",
+                        "stylers": [
+                          {
+                            "color": "#1f2835"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "road.highway",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#f3d19c"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "transit",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#2f3948"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "transit.station",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#d59563"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [
+                          {
+                            "color": "#17263c"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "water",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                          {
+                            "color": "#515c6d"
+                          }
+                        ]
+                      },
+                      {
+                        "featureType": "water",
+                        "elementType": "labels.text.stroke",
+                        "stylers": [
+                          {
+                            "color": "#17263c"
+                          }
+                        ]
+                      }
+                    ]
+                ''');
                                   },
-                                  markers: Set<Marker>.of(markers.values),
+                                  markers: markers,
                                   zoomGesturesEnabled: true,
                                   circles: Set.from(
                                     [
@@ -161,11 +344,11 @@ class _NearCourrierState extends State<NearCourrier> {
                                   ),
                                 ),
                               ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    showBotomSheet(context, 0);
-                                  },
-                                  child: Text('show'))
+                              // ElevatedButton(
+                              //     onPressed: () {
+                              //       showBotomSheet(context, 0);
+                              //     },
+                              //     child: Text('show'))
                             ],
                           )
                         : Center(

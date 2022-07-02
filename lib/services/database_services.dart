@@ -218,4 +218,33 @@ class DataBaseMethods {
 
     // _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
   }
+
+  Future<String> createTransaction({
+    required String brandName,
+    required String catgory,
+    required String price,
+    required String cardNum,
+  }) async {
+    String res = "Some Error Occured";
+    try {
+      await _firestore
+          .collection('transactions')
+          .doc('transactionsList')
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc(DateTime.now().toString())
+          .set({
+        'brandName': brandName,
+        'catgory': catgory,
+        'price': price,
+        'cardNum': cardNum,
+        'date': DateFormat().add_yMMMMd().format(DateTime.now()),
+      });
+      return res = 'success';
+    } catch (e) {
+      return res = e.toString();
+    }
+    return res;
+
+    // _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)
+  }
 }

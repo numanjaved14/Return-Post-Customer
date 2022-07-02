@@ -1,4 +1,5 @@
 import 'package:couriercustomer/views/screens/add_order_screen.dart';
+import 'package:couriercustomer/views/screens/chatmodels/chat.dart';
 import 'package:couriercustomer/views/screens/home_screen.dart';
 import 'package:couriercustomer/views/screens/order_place/brand_select_screen.dart';
 import 'package:couriercustomer/views/screens/orders_screen.dart';
@@ -83,9 +84,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 minWidth: 40,
                 onPressed: () {
                   setState(() {
-                    currentScreen = Text('Chat Page',
-                        style: TextStyle(
-                            fontSize: 35, fontWeight: FontWeight.bold));
+                    currentScreen = Chat();
                     // if user taps on this dashboard tab will be active
                     currentTab = 2;
                   });
