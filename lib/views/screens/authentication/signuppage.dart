@@ -116,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
         _isLoading = true;
       });
       String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
+        email: _emailController.text.trim(),
         password: _passwordController.text,
         userName: _usernameController.text,
         referal: _refreralController.text,
@@ -212,7 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // border: Border.all(color: Colors.grey,width: 0.5)
 
                     child: TextFormField(
-                                              style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
 
                       //  textAlign: TextAlign.start,
                       controller: _usernameController,
@@ -251,7 +251,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // border: Border.all(color: Colors.grey,width: 0.5)
 
                     child: TextFormField(
-                                              style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
 
                       //  textAlign: TextAlign.start,
                       controller: _emailController,
@@ -290,7 +290,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     // border: Border.all(color: Colors.grey,width: 0.5)
 
                     child: TextFormField(
-                                              style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
 
                       controller: _passwordController,
                       validator: (v) {
@@ -337,7 +337,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   // border: Border.all(color: Colors.grey,width: 0.5)
 
                   child: TextFormField(
-                                            style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
 
                     //  textAlign: TextAlign.start,
                     controller: _refreralController,
@@ -370,7 +370,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   // border: Border.all(color: Colors.grey,width: 0.5)
 
                   child: TextFormField(
-                                            style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
 
                     //  textAlign: TextAlign.start,
                     controller: _addressController,

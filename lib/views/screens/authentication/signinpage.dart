@@ -95,7 +95,7 @@ class _SigninpageState extends State<Signinpage> {
                       // border: Border.all(color: Colors.grey,width: 0.5)
 
                       child: TextFormField(
-                                                style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white),
 
                         controller: _passwordController,
                         validator: (e) {
@@ -166,7 +166,7 @@ class _SigninpageState extends State<Signinpage> {
                   }
                   await DataBaseMethods()
                       .loginUser(
-                        _emailController.text,
+                        _emailController.text.trim(),
                         _passwordController.text,
                       )
                       .then(
