@@ -7,6 +7,7 @@ import 'package:couriercustomer/views/screens/chatmodels/chat.dart';
 import 'package:couriercustomer/views/screens/chatmodels/chatpage.dart';
 import 'package:couriercustomer/views/screens/order_place/add_payment.dart';
 import 'package:couriercustomer/views/screens/order_place/brand_select_screen.dart';
+import 'package:couriercustomer/views/screens/suppot/support.dart';
 import 'package:couriercustomer/widgets/mydrawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

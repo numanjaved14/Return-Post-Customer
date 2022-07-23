@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couriercustomer/services/authmethods.dart';
 import 'package:couriercustomer/views/screens/authentication/signinpage.dart';
 import 'package:couriercustomer/views/screens/profile_edit.dart';
+import 'package:couriercustomer/views/screens/suppot/support.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../views/screens/suppot/referafriend.dart';
+import '../views/screens/transactionhistory.dart/transactionhistory.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -199,19 +203,12 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.white),
                   ),
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (builder) => ProfileSettings(
-                    //               username: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['username'],
-                    //               email: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['email'],
-                    //               address: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['address'],
-                    //               photoUrl: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['photoUrl'],
-                    //             )));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => TransactionHistory(
+                                 
+                                )));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -277,19 +274,12 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.white),
                   ),
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (builder) => ProfileSettings(
-                    //               username: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['username'],
-                    //               email: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['email'],
-                    //               address: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['address'],
-                    //               photoUrl: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['photoUrl'],
-                    //             )));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => Support(
+                                 
+                                )));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
@@ -297,6 +287,8 @@ class _MyDrawerState extends State<MyDrawer> {
                   ),
                 ),
                 ListTile(
+
+                  
                   leading: Container(
                       height: 40,
                       width: 40,
@@ -316,19 +308,12 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.white),
                   ),
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (builder) => ProfileSettings(
-                    //               username: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['username'],
-                    //               email: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['email'],
-                    //               address: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['address'],
-                    //               photoUrl: (snapshot!.data()
-                    //                   as Map<String, dynamic>)['photoUrl'],
-                    //             )));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (builder) => ReferAFreiend(
+                                 
+                                )));
                   },
                   trailing: Icon(
                     Icons.arrow_forward_ios,
